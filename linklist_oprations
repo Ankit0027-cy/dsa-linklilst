@@ -1,0 +1,128 @@
+class Node:
+    def __init__(self,value,next=None):
+        self.value=value
+        self.next=next
+class Linklist:
+    def __init__(self,head=None):
+        self.head=head
+    def push(self,value):
+        new_node=Node(value)
+        
+        new_node.next=self.head
+        self.head=new_node
+    def isempty(self):
+        return self.head==0
+    def printll(self):
+        temp=self.head
+        while temp:
+            print(temp.value,'-->',end='')
+            temp=temp.next
+        print()
+    def reversell(self):
+        prev=None
+        temp=self.head
+        while temp != None:
+            next_node=temp.next
+            temp.next=prev
+            prev=temp
+            temp=next_node
+        self.head=prev
+    def is_palindrome(self):
+        val=[]
+        temp=self.head
+        while temp:
+            val.append(temp.value)
+            temp=temp.next 
+        return val==val[::-1]
+    def find_middle(self):
+        temp=self.head
+        slow=temp
+        fast=temp
+        while fast and fast.next:
+            slow=slow.next
+            fast=fast.next.next
+        return slow.value
+    def delete_head(self):
+        if self.head==None:
+            return 'None'
+        self.head=self.head.next
+    def pop(self):
+        if self.head==None:
+            return 'None'
+        temp=self.head
+        if temp.next==None:
+            return  self.delete_head()
+        while temp.next.next != None:
+            temp=temp.next
+        temp.next=None
+    def remove_nth(self,n):
+        if self.head==None:
+            return "empty"
+        if self.head.value==n:
+            return self.delete_head()
+        temp=self.head
+        while temp.next !=None:
+            if temp.next.value==n:
+                break
+            temp=temp.next
+        if temp.next==None:
+            return 'not found'
+        else:
+            temp.next=temp.next.next
+    def search(self,item):
+        temp=self.head
+        pos=1
+        while temp !=None:
+            if temp.value==item:
+                return pos
+            temp=temp.next
+            pos +=1 
+        return 'not found'
+    def __str__(self):
+        temp=self.head
+        result=' '
+        while temp !=None:
+            result=result+str(temp.value)+'->'
+            temp=temp.next
+        return result[::-2]
+    def append(self,value):
+        new_node=Node(value)
+        if self.head==None:
+            self.head=new_node
+            return
+        temp=self.head
+        while temp.next !=None:
+            temp=temp.next
+        temp.next=new_node
+    def insert_after(self,after,value):
+        new_node=Node(value)
+        temp=self.head
+        while temp != None:
+            if temp.value==after:
+                break
+            temp=temp.next
+        if temp !=None:
+            new_node.next=temp.next
+            temp.next=new_node
+        else:
+            return 'not found'
+                
+l1=Linklist()
+l1.push(1)
+l1.push(2)
+l1.push(8)
+l1.push(4)
+l1.push(7)
+# l1.printll()
+l1.reversell()
+# l1.printll()
+print(l1.remove_nth(8))
+# l1.printll()
+print(l1.search(4))
+l1.insert_after(8,5)
+# l1.printll()
+l1.append(6)
+l1.printll()
+l1.pop()  
+# print(l1)
+l1.printll()
